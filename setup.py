@@ -73,6 +73,7 @@ setup(
                                  "utility/requirements.txt"]},
     packages=["celloracle", "celloracle.data_conversion", "celloracle.network", "celloracle.trajectory",
               "celloracle.data", "celloracle.go_analysis", "celloracle.oracle_utility",
-              "celloracle.motif_analysis", "celloracle.network_analysis", "celloracle.utility", "celloracle.applications", "celloracle.visualizations"],
+              "celloracle.motif_analysis", "celloracle.network_analysis", "celloracle.utility", "celloracle.applications", "celloracle.visualizations",
+              "celloracle._velocyto_replacement"],  # Added: internal velocyto replacement
     entry_points={'console_scripts':['seuratToAnndata = celloracle.data_conversion.process_seurat_object:main']}
 )
