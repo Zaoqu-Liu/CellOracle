@@ -46,7 +46,8 @@ def update_adata(adata):
         if isinstance(lo, np.ndarray):
             lo = lo[0]
         adata.uns['draw_graph']['params']['layout'] = lo
-    except:
+    except (KeyError, AttributeError, IndexError) as e:
+        # Layout info not found or invalid format - this is expected for some datasets
         pass
 
 
@@ -69,12 +70,15 @@ def load_oracle(file_path):
 
     try:
         obj = load_hdf5(filename=file_path, obj_class=Oracle, ignore_attrs_if_err=["knn", "knn_smoothing_w", "pca"])
-
-    except:
-        print("Found serious error when loading data. It might be because of discrepancy of dependent library. You are trying to load an object which was generated with a library of different version.")
-        obj = load_hdf5(filename=file_path, obj_class=Oracle, ignore_attrs_if_err=["knn", "knn_smoothing_w", "pca"])
-
-        return None
+    except Exception as e:
+        import warnings
+        warnings.warn(
+            f"Error loading Oracle object: {e}\n"
+            "This might be due to version incompatibility. "
+            "The object was likely created with a different version of celloracle or its dependencies.",
+            RuntimeWarning
+        )
+        raise
     # Update Anndata
     update_adata(obj.adata)
 

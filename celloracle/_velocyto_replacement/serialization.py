@@ -23,7 +23,8 @@ def _obj2uint(obj: object, compression: int=9, protocol: int=2) -> np.ndarray:
     An array encoding in bytes (uint8) the object pickled
     """
     zstr = zlib.compress(pickle.dumps(obj, protocol=protocol), compression)
-    return np.fromstring(zstr, dtype=np.uint8)
+    # Use np.frombuffer instead of deprecated np.fromstring (numpy 2.0 compatibility)
+    return np.frombuffer(zstr, dtype=np.uint8)
 
 
 def _uint2obj(uint: np.ndarray) -> object:

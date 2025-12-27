@@ -25,19 +25,21 @@ import sys, os
 from tqdm.auto import tqdm
 
 # 0.2. libraries for DNA and genome data wrangling and Motif analysis
-from genomepy import Genome
-
-#from gimmemotifs.motif import Motif
-# Make gimmemotifs optional for installations without motif scanning
+# Make gimmemotifs and genomepy optional for GRN-only workflows
 try:
+    from genomepy import Genome
     from gimmemotifs.scanner import Scanner
-    GIMMEMOTIFS_AVAILABLE = True
-except ImportError:
+    from gimmemotifs.fasta import Fasta
+    from pybedtools import BedTool
+    MOTIF_DEPS_AVAILABLE = True
+except ImportError as e:
+    import warnings
+    warnings.warn(f"Motif analysis dependencies not available: {e}", ImportWarning)
+    Genome = None
     Scanner = None
-    GIMMEMOTIFS_AVAILABLE = False
-from gimmemotifs.fasta import Fasta
-
-from pybedtools import BedTool
+    Fasta = None
+    BedTool = None
+    MOTIF_DEPS_AVAILABLE = False
 
 
 ####

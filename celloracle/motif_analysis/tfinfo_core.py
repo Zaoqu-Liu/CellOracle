@@ -30,11 +30,21 @@ from datetime import datetime
 
 from tqdm.auto import tqdm
 
-from genomepy import Genome
-
-from gimmemotifs.motif import Motif
-from gimmemotifs.motif import default_motifs
-from gimmemotifs.scanner import Scanner
+# Make gimmemotifs and genomepy optional for GRN-only workflows
+try:
+    from genomepy import Genome
+    from gimmemotifs.motif import Motif
+    from gimmemotifs.motif import default_motifs
+    from gimmemotifs.scanner import Scanner
+    MOTIF_DEPS_AVAILABLE = True
+except ImportError as e:
+    import warnings
+    warnings.warn(f"gimmemotifs/genomepy not available: {e}. TFinfo class will have limited functionality.", ImportWarning)
+    Genome = None
+    Motif = None
+    default_motifs = None
+    Scanner = None
+    MOTIF_DEPS_AVAILABLE = False
 
 from ..utility.hdf5_processing import dump_hdf5, load_hdf5
 from ..utility import save_as_pickled_object, load_pickled_object, intersect,\

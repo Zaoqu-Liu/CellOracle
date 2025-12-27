@@ -1,23 +1,49 @@
-numpy==1.26.4
-scipy
-cython
+# CellOracle Dependencies
+# Updated for better compatibility with modern Python environments
+
+# Core numerical computing
+numpy>=1.20,<2.0  # Explicitly exclude numpy 2.0 for compatibility
+scipy>=1.7
 numba>=0.50.1
-matplotlib<3.7
-seaborn
-scikit-learn
+
+# Data manipulation
+pandas>=1.0.3  # Allow pandas 2.x for performance improvements
+
+# Visualization
+matplotlib>=3.6  # Allow modern matplotlib versions
+seaborn>=0.11
+
+# Machine learning
+scikit-learn>=1.0
+
+# File I/O
 h5py>=3.1.0
-pandas>=1.0.3, <=1.5.3
-# velocyto>=0.17  # Removed: Replaced with internal numba implementation in celloracle._velocyto_replacement
-umap-learn
 pyarrow>=0.17
+
+# Progress bars
 tqdm>=4.45
-igraph>=0.10.1
-louvain
-jupyter
-anndata>=0.7.5
+
+# Single-cell analysis
+anndata>=0.7.5  # Allow modern anndata versions
 scanpy>=1.6
-joblib
-goatools
-genomepy>=0.8.4
-gimmemotifs>=0.14.4, <=0.17.2
-anndata<=0.10.8
+
+# Parallelization
+joblib>=1.0
+
+# Network analysis
+igraph>=0.10.1
+louvain>=0.7
+
+# Interactive computing
+jupyter>=1.0
+
+# Gene ontology analysis
+goatools>=1.0
+
+# ATAC-seq and motif analysis (optional - required only for motif scanning)
+# These can be installed separately if needed:
+# genomepy>=0.8.4
+# gimmemotifs>=0.14.4
+
+# Note: velocyto dependency removed - replaced with internal numba implementation
+# See celloracle/_velocyto_replacement/ for details

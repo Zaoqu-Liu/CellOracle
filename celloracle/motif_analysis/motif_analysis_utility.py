@@ -19,20 +19,26 @@ import logging
 #from tqdm.auto import tqdm
 from tqdm.auto import tqdm
 # 0.2. libraries for DNA and genome data wrangling and Motif analysis
-from genomepy import Genome
-import genomepy
-
-#from gimmemotifs.motif import Motif
-# Make gimmemotifs optional
+# Make gimmemotifs and genomepy optional to support GRN-only workflows
 try:
+    from genomepy import Genome
+    import genomepy
     from gimmemotifs.scanner import Scanner
+    from gimmemotifs.fasta import Fasta
+    from gimmemotifs.config import DIRECT_NAME, INDIRECT_NAME
+    from gimmemotifs import __version__ as gmotif_version
     GIMMEMOTIFS_AVAILABLE = True
-except ImportError:
+except ImportError as e:
+    import warnings
+    warnings.warn(f"gimmemotifs/genomepy not available: {e}. Motif analysis features will be disabled.", ImportWarning)
+    Genome = None
+    genomepy = None
     Scanner = None
+    Fasta = None
+    DIRECT_NAME = None
+    INDIRECT_NAME = None
+    gmotif_version = None
     GIMMEMOTIFS_AVAILABLE = False
-from gimmemotifs.fasta import Fasta
-from gimmemotifs.config import DIRECT_NAME, INDIRECT_NAME
-from gimmemotifs import __version__ as gmotif_version
 
 from .process_bed_file import peak_M1
 
@@ -66,10 +72,8 @@ def is_genome_installed(ref_genome, genomes_dir=None):
     """
     try:
         genome_data = Genome(name=ref_genome, genomes_dir=genomes_dir)
-
         return True
-
-    except:
+    except Exception as e:
         if ref_genome == "AmexG_v6.0-DD":
             print(f"genome {ref_genome} is not installed in this environment.")
             print(f"Please install {ref_genome} data with genomepy using the following command in command line (terminal).")
