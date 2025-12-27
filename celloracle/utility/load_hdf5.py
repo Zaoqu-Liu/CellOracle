@@ -5,7 +5,11 @@
 from ..network_analysis import load_links
 from ..network import load_net
 from ..trajectory.oracle_core import load_oracle
-from ..motif_analysis.tfinfo_core import load_TFinfo
+# Make motif_analysis optional
+try:
+    from ..motif_analysis.tfinfo_core import load_TFinfo
+except ImportError:
+    load_TFinfo = None  # Motif analysis not available
 from ..applications.differentiation_flow import load_gradient
 
 def load_hdf5(file_path, object_class_name=None):

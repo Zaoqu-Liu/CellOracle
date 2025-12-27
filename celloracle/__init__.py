@@ -5,7 +5,16 @@ import re
 import warnings
 import logging
 
+# Import core modules (motif_analysis is optional and loaded on demand)
 from . import utility, network, network_analysis, go_analysis, data, data_conversion, oracle_utility
+
+# Make motif_analysis optional (requires gimmemotifs/genomepy for ATAC-seq processing)
+try:
+    from . import motif_analysis
+    MOTIF_ANALYSIS_AVAILABLE = True
+except ImportError:
+    motif_analysis = None
+    MOTIF_ANALYSIS_AVAILABLE = False
 from .trajectory.oracle_core import Oracle
 from .network import Net
 from .network_analysis import Links

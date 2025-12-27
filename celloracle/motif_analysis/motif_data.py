@@ -20,7 +20,13 @@ from glob import glob
 
 # 0.2. libraries for DNA and genome data wrangling and Motif analysis
 
-from gimmemotifs.motif import read_motifs
+# Make gimmemotifs optional
+try:
+    from gimmemotifs.motif import read_motifs
+    GIMMEMOTIFS_AVAILABLE = True
+except ImportError:
+    read_motifs = None
+    GIMMEMOTIFS_AVAILABLE = False
 
 from ..data import __path__ as parent_path
 from ..data.config import CELLORACLE_DATA_DIR, WEB_PAR_DIR

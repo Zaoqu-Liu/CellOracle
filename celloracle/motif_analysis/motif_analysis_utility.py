@@ -23,7 +23,13 @@ from genomepy import Genome
 import genomepy
 
 #from gimmemotifs.motif import Motif
-from gimmemotifs.scanner import Scanner
+# Make gimmemotifs optional
+try:
+    from gimmemotifs.scanner import Scanner
+    GIMMEMOTIFS_AVAILABLE = True
+except ImportError:
+    Scanner = None
+    GIMMEMOTIFS_AVAILABLE = False
 from gimmemotifs.fasta import Fasta
 from gimmemotifs.config import DIRECT_NAME, INDIRECT_NAME
 from gimmemotifs import __version__ as gmotif_version

@@ -28,7 +28,13 @@ from tqdm.auto import tqdm
 from genomepy import Genome
 
 #from gimmemotifs.motif import Motif
-from gimmemotifs.scanner import Scanner
+# Make gimmemotifs optional for installations without motif scanning
+try:
+    from gimmemotifs.scanner import Scanner
+    GIMMEMOTIFS_AVAILABLE = True
+except ImportError:
+    Scanner = None
+    GIMMEMOTIFS_AVAILABLE = False
 from gimmemotifs.fasta import Fasta
 
 from pybedtools import BedTool
