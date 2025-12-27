@@ -12,7 +12,6 @@ License: BSD-2-Clause (same as original velocyto)
 """
 
 import numpy as np
-import multiprocessing
 from numba import jit, prange
 from typing import Optional
 

@@ -193,14 +193,17 @@ def scan_dna_for_motifs(scanner_object, motifs_object, sequence_object, divide=1
 
 
 
-from gimmemotifs.utils import as_fasta
-
 def scan_modified(scanner_object, seqs, nreport=100, scan_rc=True, zscore=False, gc=False, verbose=True, batch_size=50000):
     """
     This is modified version of gimmemotifs.scanner.Scanner.scan() function.
     1. Added batch_size control.
     2. Added progressbar control.
     """
+    # Import here to avoid module-level dependency
+    if not GIMMEMOTIFS_AVAILABLE:
+        raise ImportError("gimmemotifs is required for motif scanning but not installed")
+    from gimmemotifs.utils import as_fasta
+    
     seqs = as_fasta(seqs, genome=scanner_object.genome)
     if zscore:
         if gc:

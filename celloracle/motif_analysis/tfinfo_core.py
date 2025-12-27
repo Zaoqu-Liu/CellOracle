@@ -333,6 +333,8 @@ class TFinfo():
                 self.motif_db_name = 'JASPAR2020_vertebrates.pfm'
 
                 # Load JASPAR motif from gimmemotifs data
+                if not MOTIF_DEPS_AVAILABLE:
+                    raise ImportError("gimmemotifs is required for motif loading but not installed")
                 from gimmemotifs.motif import read_motifs
                 from gimmemotifs.motif import MotifConfig
                 config = MotifConfig()
@@ -719,8 +721,6 @@ class TFinfo():
 ### 4.2. Make TFinfo dataFrame for GRN inference  ###
 ######################################################
 
-from gimmemotifs.config import DIRECT_NAME, INDIRECT_NAME
-
 
 def _get_dic_motif2TFs(species, motifs, TF_evidence_level="direct_and_indirect", formatting=True):
     """
@@ -732,6 +732,10 @@ def _get_dic_motif2TFs(species, motifs, TF_evidence_level="direct_and_indirect",
         For more information, please read explanation of Motif class in gimmemotifs documentation (https://gimmemotifs.readthedocs.io/en/master/index.html)
 
     """
+    # Import constants here if needed
+    if not MOTIF_DEPS_AVAILABLE:
+        raise ImportError("gimmemotifs is required for TF extraction but not installed")
+    from gimmemotifs.config import DIRECT_NAME, INDIRECT_NAME
 
     if TF_evidence_level == "direct_and_indirect":
         factor_kind = [DIRECT_NAME, INDIRECT_NAME]
