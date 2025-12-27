@@ -8,7 +8,12 @@ Finally we will get list of TFs that potentially binds to a specific gene.
 
 """
 
-from .motif_analysis_utility import is_genome_installed
+# Make gimmemotifs optional to avoid compilation issues
+try:
+    from .motif_analysis_utility import is_genome_installed
+except ImportError:
+    # gimmemotifs not available - motif analysis will be disabled
+    is_genome_installed = None
 from .process_bed_file import peak2fasta, read_bed, remove_zero_seq, check_peak_format
 from .tfinfo_core import (load_TFinfo, load_TFinfo_from_parquets,
                           make_TFinfo_from_scanned_file, TFinfo, scan_dna_for_motifs)
