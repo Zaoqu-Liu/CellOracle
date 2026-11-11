@@ -2,7 +2,7 @@
 # Updated for better compatibility with modern Python environments
 
 # Core numerical computing
-numpy>=1.20,<2.0  # Explicitly exclude numpy 2.0 for compatibility
+numpy>=1.20  # runs under numpy 2: the velocyto replacement is pure Python/numba
 scipy>=1.7
 numba>=0.50.1
 
@@ -33,9 +33,6 @@ joblib>=1.0
 # Network analysis
 igraph>=0.10.1
 louvain>=0.7
-
-# Interactive computing
-jupyter>=1.0
 
 # Gene ontology analysis
 goatools>=1.0
